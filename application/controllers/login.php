@@ -22,7 +22,39 @@ class login extends CI_Controller {
 	{
         $this->load->model('usermodel');
         $q = $this->usermodel->getUserData();
-        print_r($q);
+        
 		$this->load->view('login_screen');
 	}
+    public function employee()
+	{
+        $this->load->model('usermodel');
+        $q = $this->usermodel->getUserData();
+        print_r($q);
+		$this->load->view('employee_screen');
+	}
+    public function supervisor()
+	{
+        $this->load->model('usermodel');
+        $q = $this->usermodel->getUserData();
+        print_r($q);
+		$this->load->view('supervisor_screen');
+	}
+
+    public function myaction() {
+        
+        $emp_id  =$_POST["emp_id"];
+        $password = $_POST["password"];
+        $this->load->model('usermodel');
+        $val_res = $this->usermodel->validate($emp_id, $password);
+        if ($val_res == 'empl') {
+            $this->load->view('employee_screen');
+        } else if ($val_res == 'sup'){
+            $this->load->view('supervisor_screen');
+        } else {
+            echo "error goes brr";
+        }
+        
+    }
+
+
 }
