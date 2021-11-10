@@ -114,6 +114,9 @@ body {
   width: 100%; }
 
 /*# sourceMappingURL=login.css.map */
+
+
+
 </style>
 
 </head>
@@ -121,7 +124,7 @@ body {
 
 <nav class="navbar navbar-dark bg-primary" style="height:70px;">
   <!-- Navbar content -->
-  lorem
+  <h2>Supervisor Screen</h2>
 </nav>
 
 <div class = "container">
@@ -129,6 +132,7 @@ body {
     <h3></h3>
     
     <?php foreach ($appr_leave_info as $lf): ?>
+        <form action="http://localhost/lms/index.php/login/update_auth" method="post">
         <div class="card">
   <div class="card-body">
      <table class="table table-success table-striped">
@@ -148,56 +152,57 @@ body {
     </table>
     <div class="card text-white bg-dark mb-3" >
   <div class="card-body">
-    This is some text within a card body.
-  
-    <table width="100%">
-        <tr>
-            <td>Empl details</td>
-            <td>Name/<?php echo $lf->submitted_by_empno ?></td>
-        </tr>
-        <tr>
-            <td>Purpose of leave</td>
-            <td>purpose</td>
-        </tr>
-        <tr>
-            <td>From</td>
-            <td>from</td>
-        </tr>
-        <tr>
-            <td>To</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Application Strtus</td>
-            <td><?php echo $lf->status ?></td>
+            <h1></h1>
+  <label for="ref_no">Ref No</label>
+            <input type="text" name="ref_no" id="ref_no" value="<?php echo $lf->ref_id ?>" ></input>
 
-        </tr>
-        <tr>
-            <td>Choose an action:</td>
-            <td>
+            <label for="emp_no">Submiited by Empl details</label>
+            <input type="text" name="emp_no" id="emp_no" value="<?php echo $lf->submitted_by_empno ?>" ></input>
+
+            <label for="sup_no">Submiited to Empl details</label>
+            <input type="text" name="sup_no" id="sup_no" value="<?php echo $name->emp_id ?>" ></input>
+            
+            <label for="purpose_of_leave">Purpose of leave</label>
+            <input type="text" name="purpose_of_leave" id="purpose_of_leave" value="<?php echo $lf->nature_of_leave ?>" >  </input>
+            
+           
+            
+            <label for="from">from</label>
+            <input type="text" name="from" id="from" value="<?php echo $lf->leave_from ?>" >  </input>
+            
+            <label for="to">to</label>
+            <input type="text" name="to" id="to" value="<?php echo $lf->leave_to ?>" >  </input>
+        
+            
+            Application Strtus
+            <?php echo $lf->status ?>
+
+        
+            <label for="action_sel">Choose an action:</label>
+            
+            
             <select name="action_sel" id="action_sel">
   <option value="Approve">Approve</option>
   <option value="Forward">Forward</option>
   <option value="Back">Back</option>
   <option value="Reject">Reject</option>
 </select>
-            </td>
-        </tr>
-        <tr>
+            
         
-        </tr>
-    </table>
+        
+        
+        <input type="submit" class="btn btn-info btn-lg"></input>
+           
     </div>
-    <input type="submit" class="btn btn-info btn-lg"></input>
+    
 </div>
 
     
     </div>
     </div>
-
+        </form>
     <?php endforeach; ?>
 
     </div>
-
 </body>
 </html>

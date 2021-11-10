@@ -70,9 +70,36 @@ class usermodel extends CI_model {
     public function getToBeAuthLeaves($sup_emp_id) {
         $this->load->model('usermodel');
         // print_r("select leave_auth.*, leave_sheet.* from leave_auth join leave_sheet where submitted_by_empno = $sup_emp_id and leave_sheet.emp_no = leave_auth.submitted_by_empno");
-        $all_leaves = $this->db->query("select leave_auth.*, leave_sheet.* from leave_auth join leave_sheet where submitted_to_empno = $sup_emp_id and leave_sheet.emp_no = leave_auth.submitted_by_empno")->result();
+        $all_leaves = $this->db->query("select leave_auth.*, leave_sheet.*, leave_all_kinds.* from leave_auth , leave_sheet, leave_all_kinds where submitted_to_empno = $sup_emp_id and leave_sheet.emp_no = leave_auth.submitted_by_empno and status='Pending' and  leave_auth.ref_id = leave_all_kinds.ref_id and leave_sheet.emp_no=leave_all_kinds.emp_no    ")->result();
         // print_r($all_leaves);
         return $all_leaves;
+    }
+
+    public function updateAuthApprove($ref_id) {
+        $this->load->database();
+        // print_r("update leave_auth set status='Approve' where red_id = $ref_id");
+       
+        $this->db->query(" update leave_auth set status='Approve' where ref_id = $ref_id ");
+        $this->db->trans_commit();
+
+    }
+    
+    public function updateAuthReject($ref_id) {
+        $this->load->database();
+        // print_r("update leave_auth set status='Reject' where red_id = $ref_id");
+       
+        $this->db->query(" update leave_auth set status='Reject' where ref_id = $ref_id ");
+        $this->db->trans_commit();
+
+    }
+
+
+    public function getPrevLeaves($emp_id) {
+        $this->load->database();
+        // print_r("update leave_auth set status='Reject' where red_id = $ref_id");
+       
+        return $this->db->query(" select leave_auth.*, leave_all_kinds.* from  leave_auth join leave_all_kinds where submitted_by_empno = '$emp_id' and leave_all_kinds.ref_id = leave_auth.ref_id  ")->result();
+
     }
 
 
