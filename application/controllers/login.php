@@ -45,16 +45,34 @@ class login extends CI_Controller {
         $emp_id  =$_POST["emp_id"];
         $password = $_POST["password"];
         $this->load->model('usermodel');
+        
         $val_res = $this->usermodel->validate($emp_id, $password);
         if ($val_res == 'empl') {
-            $this->load->view('employee_screen');
+
+            $data['leave_info'] = $this->usermodel->getLeaveInfo($emp_id);
+            $data['name'] = $this->usermodel->getName($emp_id);
+            $this->load->view('employee_screen', $data);
         } else if ($val_res == 'sup'){
-            $this->load->view('supervisor_screen');
+            $data['appr_leave_info'] = $this->usermodel->getToBeAuthLeaves($emp_id);
+
+            $this->load->view('supervisor_screen', $data);
         } else {
             echo "error goes brr";
         }
         
     }
+
+    public function file_leave() {
+        // print_r($_POST);
+        $this->load->model('usermodel');
+        $ref_gen = $this->usermodel->fileALeave($_POST["emp_id"], $_POST["leave_type"], $_POST["From"], $_POST["To"]);
+
+        $this->usermodel->fileAuthTable($ref_gen, $_POST["emp_id"], $_POST["approving_emp"], "Pending", "");
+
+    }
+
+    
+
 
 
 }
