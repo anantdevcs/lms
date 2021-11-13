@@ -56,6 +56,28 @@ class login extends CI_Controller
         $this->load->model('usermodel');
 
         $val_res = $this->usermodel->validate($emp_id, $password);
+        if ($val_res != 'invalid') {
+
+            $data['leave_info'] = $this->usermodel->getLeaveInfo($emp_id);
+            $data['name'] = $this->usermodel->getName($emp_id);
+            $data['appr_leave_info'] = $this->usermodel->getToBeAuthLeaves($emp_id);
+            $data['prev_leaves'] = $this->usermodel->getPrevLeaves($emp_id);
+            $this->load->helper('url');
+
+            $this->load->view('fin_emp', $data);
+        } else {
+            echo "error goes brr";
+        }
+    }
+
+    public function myaction1()
+    {
+
+        $emp_id  = $_POST["emp_id"];
+        $password = $_POST["password"];
+        $this->load->model('usermodel');
+
+        $val_res = $this->usermodel->validate($emp_id, $password);
         if ($val_res == 'empl') {
 
             $data['leave_info'] = $this->usermodel->getLeaveInfo($emp_id);
@@ -75,6 +97,7 @@ class login extends CI_Controller
     }
     
 
+
     public function file_leave()
     {
         // print_r($_POST);
@@ -88,7 +111,12 @@ class login extends CI_Controller
 
             $data['prev_leaves'] = $this->usermodel->getPrevLeaves($emp_id);
 
-            $this->load->view('employee_screen', $data);
+            $data['leave_info'] = $this->usermodel->getLeaveInfo($emp_id);
+            $data['name'] = $this->usermodel->getName($emp_id);
+
+            $data['prev_leaves'] = $this->usermodel->getPrevLeaves($emp_id);
+            $this->load->helper('url');
+            $this->load->view('fin_emp', $data);
     }
 
     public function update_auth()
@@ -105,8 +133,11 @@ class login extends CI_Controller
         $emp_id = $_POST["sup_no"];
         $data['name'] = $this->usermodel->getName($emp_id);
         $data['appr_leave_info'] = $this->usermodel->getToBeAuthLeaves($emp_id);
+        $data['prev_leaves'] = $this->usermodel->getPrevLeaves($emp_id);
+        $data['leave_info'] = $this->usermodel->getLeaveInfo($emp_id);
 
-        $this->load->view('supervisor_screen', $data);
+        $this->load->helper('url');
+        $this->load->view('fin_emp', $data);
         
 
         
