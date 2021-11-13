@@ -26,6 +26,13 @@ class login extends CI_Controller
 
         $this->load->view('login_screen');
     }
+    public function fin_emp()
+    {
+        $this->load->helper('url'); 
+        $this->load->view('fin_emp');
+        echo "yee";
+    }
+
     public function employee()
     {
         $this->load->model('usermodel');
@@ -66,6 +73,7 @@ class login extends CI_Controller
             echo "error goes brr";
         }
     }
+    
 
     public function file_leave()
     {
